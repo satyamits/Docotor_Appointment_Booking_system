@@ -24,7 +24,7 @@
                                     reader.readAsDataURL($refs.photo.files[0]);
                             " />
 
-                <x-label for="photo" value="{{ __('Photo') }}" />
+                <x-label for="photo" value="{{ __('Profile Picture') }}" />
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
@@ -38,7 +38,7 @@
                     </span>
                 </div>
 
-                <x-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photo.click()">
+                <x-secondary-button class="mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
                     {{ __('Select A New Photo') }}
                 </x-secondary-button>
 
@@ -57,6 +57,27 @@
             <x-label for="name" value="{{ __('Name') }}" />
             <x-input id="name" type="text" class="mt-1 block w-full" wire:model="state.name" required autocomplete="name" />
             <x-input-error for="name" class="mt-2" />
+        </div>
+
+        <!-- Bio Data -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="bio" value="{{ __('Bio Data') }}" />
+            <textarea class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="bio" wire:model.defer="state.bio_data" placeholder="Bio Data"></textarea>
+            <x-input-error for="bio" class="mt-2" />
+        </div>
+
+        <!-- Experience -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="experience" value="{{ __('Experience') }}" />
+            <x-input id="experience" type="number" min="0" max="60" class="mt-1 block w-full" wire:model.defer="state.experience" autocomplete="experience" />
+            <x-input-error for="experience" class="mt-2" />
+        </div>
+
+          <!-- Category -->
+          <div class="col-span-6 sm:col-span-4">
+            <x-label for="category" value="{{ __('Category') }}" />
+            <x-input id="category" type="text" class="mt-1 block w-full" wire:model.defer="state.category" autocomplete="category" />
+            <x-input-error for="category" class="mt-2" />
         </div>
 
         <!-- Email -->
@@ -84,7 +105,7 @@
     </x-slot>
 
     <x-slot name="actions">
-        <x-action-message class="mr-3" on="saved">
+        <x-action-message class="me-3" on="saved">
             {{ __('Saved.') }}
         </x-action-message>
 

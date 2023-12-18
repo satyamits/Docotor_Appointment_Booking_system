@@ -7,11 +7,13 @@ import '../main.dart';
 import '../providers/dio_provider.dart';
 
 class AppointmentCard extends StatefulWidget {
-  const AppointmentCard({Key? key, required this.doctor, required this.color})
-      : super(key: key);
+  const AppointmentCard({
+    Key? key,
+    //required this.doctor, required this.color
+  }) : super(key: key);
 
-  final Map<String, dynamic> doctor;
-  final Color color;
+  // final Map<String, dynamic> doctor;
+  // final Color color;
 
   @override
   State<AppointmentCard> createState() => _AppointmentCardState();
@@ -23,7 +25,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: widget.color,
+        color: Config.primaryColor,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Material(
@@ -33,13 +35,13 @@ class _AppointmentCardState extends State<AppointmentCard> {
           child: Column(
             children: <Widget>[
               //insert Row here
-              Row(
+              const Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "http://127.0.0.1:8000${widget.doctor['doctor_profile']}"), //insert doctor profile
+                    backgroundImage: AssetImage(
+                        'assets/doctor_1.jpg'), //insert doctor profile
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 10,
                   ),
                   Column(
@@ -47,15 +49,15 @@ class _AppointmentCardState extends State<AppointmentCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Dr ${widget.doctor['doctor_name']}',
-                        style: const TextStyle(color: Colors.white),
+                        'Dr Richard Tang',
+                        style: TextStyle(color: Colors.white),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 2,
                       ),
                       Text(
-                        widget.doctor['category'],
-                        style: const TextStyle(color: Colors.black),
+                        'Dental',
+                        style: TextStyle(color: Colors.black),
                       )
                     ],
                   ),
@@ -63,9 +65,9 @@ class _AppointmentCardState extends State<AppointmentCard> {
               ),
               Config.spaceSmall,
               //Schedule info here
-              ScheduleCard(
-                appointment: widget.doctor['appointments'],
-              ),
+              const ScheduleCard(
+                  // appointment: widget.doctor['appointments'],
+                  ),
               Config.spaceSmall,
               //action button
               Row(
@@ -87,66 +89,77 @@ class _AppointmentCardState extends State<AppointmentCard> {
                     width: 20,
                   ),
                   Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                      ),
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return RatingDialog(
-                                  initialRating: 1.0,
-                                  title: const Text(
-                                    'Rate the Doctor',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  message: const Text(
-                                    'Please help us to rate our Doctor',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  image: const FlutterLogo(
-                                    size: 100,
-                                  ),
-                                  submitButtonText: 'Submit',
-                                  commentHint: 'Your Reviews',
-                                  onSubmitted: (response) async {
-                                    final SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
-                                    final token =
-                                        prefs.getString('token') ?? '';
-
-                                    final rating = await DioProvider()
-                                        .storeReviews(
-                                            response.comment,
-                                            response.rating,
-                                            widget.doctor['appointments']
-                                                ['id'], //this is appointment id
-                                            widget.doctor[
-                                                'doc_id'], //this is doctor id
-                                            token);
-
-                                    //if successful, then refresh
-                                    if (rating == 200 && rating != '') {
-                                      MyApp.navigatorKey.currentState!
-                                          .pushNamed('main');
-                                    }
-                                  });
-                            });
-                      },
-                      child: const Text(
-                        'Completed',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
                     ),
-                  ),
+                    child: const Text(
+                      'Completed',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {},
+                  ))
+                  // Expanded(
+                  //   child: ElevatedButton(
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: Colors.blue,
+                  //     ),
+                  //     onPressed: () {
+                  //       showDialog(
+                  //           context: context,
+                  //           builder: (context) {
+                  //             return RatingDialog(
+                  //                 initialRating: 1.0,
+                  //                 title: const Text(
+                  //                   'Rate the Doctor',
+                  //                   textAlign: TextAlign.center,
+                  //                   style: TextStyle(
+                  //                     fontSize: 25,
+                  //                     fontWeight: FontWeight.bold,
+                  //                   ),
+                  //                 ),
+                  //                 message: const Text(
+                  //                   'Please help us to rate our Doctor',
+                  //                   textAlign: TextAlign.center,
+                  //                   style: TextStyle(
+                  //                     fontSize: 15,
+                  //                   ),
+                  //                 ),
+                  //                 image: const FlutterLogo(
+                  //                   size: 100,
+                  //                 ),
+                  //                 submitButtonText: 'Submit',
+                  //                 commentHint: 'Your Reviews',
+                  //                 onSubmitted: (response) async {
+                  //                   final SharedPreferences prefs =
+                  //                       await SharedPreferences.getInstance();
+                  //                   final token =
+                  //                       prefs.getString('token') ?? '';
+
+                  //                   final rating = await DioProvider()
+                  //                       .storeReviews(
+                  //                           response.comment,
+                  //                           response.rating,
+                  //                           widget.doctor['appointments']
+                  //                               ['id'], //this is appointment id
+                  //                           widget.doctor[
+                  //                               'doc_id'], //this is doctor id
+                  //                           token);
+
+                  //                   //if successful, then refresh
+                  //                   if (rating == 200 && rating != '') {
+                  //                     MyApp.navigatorKey.currentState!
+                  //                         .pushNamed('main');
+                  //                   }
+                  //                 });
+                  //           });
+                  //     },
+                  //     child: const Text(
+                  //       'Completed',
+                  //       style: TextStyle(color: Colors.white),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               )
             ],
@@ -159,8 +172,8 @@ class _AppointmentCardState extends State<AppointmentCard> {
 
 //Schedule Widget
 class ScheduleCard extends StatelessWidget {
-  const ScheduleCard({Key? key, required this.appointment}) : super(key: key);
-  final Map<String, dynamic> appointment;
+  const ScheduleCard({Key? key}) : super(key: key);
+  //final Map<String, dynamic> appointment;
 
   @override
   Widget build(BuildContext context) {
@@ -171,36 +184,36 @@ class ScheduleCard extends StatelessWidget {
       ),
       width: double.infinity,
       padding: const EdgeInsets.all(20),
-      child: Row(
+      child: const Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          const Icon(
+          Icon(
             Icons.calendar_today,
             color: Colors.white,
             size: 15,
           ),
-          const SizedBox(
+          SizedBox(
             width: 5,
           ),
           Text(
-            '${appointment['day']}, ${appointment['date']}',
-            style: const TextStyle(color: Colors.white),
+            'Monday, 01/28/2024',
+            style: TextStyle(color: Colors.white),
           ),
-          const SizedBox(
+          SizedBox(
             width: 20,
           ),
-          const Icon(
+          Icon(
             Icons.access_alarm,
             color: Colors.white,
             size: 17,
           ),
-          const SizedBox(
+          SizedBox(
             width: 5,
           ),
           Flexible(
               child: Text(
-            appointment['time'],
-            style: const TextStyle(color: Colors.white),
+            '2:30 PM',
+            style: TextStyle(color: Colors.white),
           ))
         ],
       ),

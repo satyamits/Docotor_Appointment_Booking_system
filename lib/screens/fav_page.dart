@@ -36,10 +36,8 @@ class _FavPageState extends State<FavPage> {
                   return ListView.builder(
                     itemCount: auth.getFavDoc.length,
                     itemBuilder: (context, index) {
-                      return DoctorCard(
-                        doctor: auth.getFavDoc[index],
-                        //show fav icon
-                        isFav: true,
+                      return const DoctorCard(
+                        route: 'doc_details',
                       );
                     },
                   );

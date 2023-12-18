@@ -58,7 +58,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             )
           : null,
       //if action is not set, return null
-      actions: widget.actions,
+      actions: widget.actions ?? null,
     );
   }
 }

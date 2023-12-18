@@ -30,6 +30,7 @@ class _LoginFormState extends State<LoginForm> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           TextFormField(
+            key: const ValueKey('email'),
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             cursorColor: Config.primaryColor,
@@ -43,6 +44,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Config.spaceSmall,
           TextFormField(
+            key: const ValueKey('password'),
             controller: _passController,
             keyboardType: TextInputType.visiblePassword,
             cursorColor: Config.primaryColor,
@@ -70,54 +72,54 @@ class _LoginFormState extends State<LoginForm> {
                           ))),
           ),
           Config.spaceSmall,
-          Consumer<AuthModel>(
-            builder: (context, auth, child) {
-              return Button(
-                width: double.infinity,
-                title: 'Sign In',
-                onPressed: () async {
-                  //login here
-                  final token = await DioProvider()
-                      .getToken(_emailController.text, _passController.text);
-
-                  if (token) {
-                    //auth.loginSuccess(); //update login status
-                    //rediret to main page
-
-                    //grab user data here
-                    final SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    final tokenValue = prefs.getString('token') ?? '';
-
-                    if (tokenValue.isNotEmpty && tokenValue != '') {
-                      //get user data
-                      final response = await DioProvider().getUser(tokenValue);
-                      if (response != null) {
-                        setState(() {
-                          //json decode
-                          Map<String, dynamic> appointment = {};
-                          final user = json.decode(response);
-
-                          //if any appointment today
-                          for (var doctorData in user['doctor']) {
-                            //if there is appointment return for today
-
-                            if (doctorData['appointments'] != null) {
-                              appointment = doctorData;
-                            }
-                          }
-
-                          auth.loginSuccess(user, appointment);
-                          MyApp.navigatorKey.currentState!.pushNamed('main');
-                        });
-                      }
-                    }
-                  }
-                },
-                disable: false,
-              );
+          // Consumer<AuthModel>(
+          //   builder: (context, auth, child) {
+          //     return
+          Button(
+            width: double.infinity,
+            title: 'Sign In',
+            onPressed: () {
+              Navigator.of(context).pushNamed('main');
             },
-          )
+            // onPressed: () async {
+            //   //login here
+            //   final token = await DioProvider()
+            //       .getToken(_emailController.text, _passController.text);
+
+            //   if (token) {
+            //     //auth.loginSuccess(); //update login status
+            //     //rediret to main page
+
+            //     //grab user data here
+            //     final SharedPreferences prefs =
+            //         await SharedPreferences.getInstance();
+            //     final tokenValue = prefs.getString('token') ?? '';
+
+            //     if (tokenValue.isNotEmpty && tokenValue != '') {
+            //       //get user data
+            //       final response = await DioProvider().getUser(tokenValue);
+            //       setState(() {
+            //         //json decode
+            //         Map<String, dynamic> appointment = {};
+            //         final user = json.decode(response);
+
+            //         //check if any appointment today
+            //         for (var doctorData in user['doctor']) {
+            //           //if there is appointment return for today
+
+            //           if (doctorData['appointments'] != null) {
+            //             appointment = doctorData;
+            //           }
+            //         }
+
+            //         auth.loginSuccess(user, appointment);
+            //         MyApp.navigatorKey.currentState!.pushNamed('main');
+            //       });
+            //     }
+            //   }
+            // },
+            disable: false,
+          ),
         ],
       ),
     );

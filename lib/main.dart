@@ -1,10 +1,12 @@
+import 'package:doctor_appointment_booking_system/main_layout.dart';
+import 'package:doctor_appointment_booking_system/models/auth_model.dart';
+import 'package:doctor_appointment_booking_system/screens/auth_page.dart';
+import 'package:doctor_appointment_booking_system/screens/booking_page.dart';
+import 'package:doctor_appointment_booking_system/screens/doctor_details.dart';
 import 'package:doctor_appointment_booking_system/screens/success_booked.dart';
 import 'package:doctor_appointment_booking_system/utils/config.dart';
 import 'package:flutter/material.dart';
-
-import 'main_layout.dart';
-import 'screens/auth_page.dart';
-import 'screens/booking_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,15 +15,21 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  //this is for push navigator
   static final navigatorKey = GlobalKey<NavigatorState>();
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
+    //define ThemeData here
+    // return ChangeNotifierProvider<AuthModel>(
+    //   create: (context) => AuthModel(),
+    //   child:
     return MaterialApp(
       navigatorKey: navigatorKey,
-      title: 'Doctor appointment',
+      title: 'Flutter Doctor App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        //pre-define input decoration
         inputDecorationTheme: const InputDecorationTheme(
           focusColor: Config.primaryColor,
           border: Config.outlinedBorder,
@@ -46,9 +54,11 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const AuthPage(),
         'main': (context) => const MainLayout(),
+        'doc_details': (context) => const DoctorDetails(),
         'booking_page': (context) => const BookingPage(),
         'success_booking': (context) => const AppointmentBooked(),
       },
     );
   }
 }
+
